@@ -5,3 +5,4 @@ SpeechRecognition
 pydub
 pandas
 python-dotenv
+openpyxl

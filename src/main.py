@@ -3,16 +3,13 @@ import pandas as pd
 import speech_recognition as sr
 import openai
 import os
-
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
 
-
 # Get the OpenAI API key from environment variables
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
 
 # Function to load questions from a file
 def load_questions(file_path):
@@ -65,7 +62,7 @@ def record_and_transcribe():
             st.write("Recording complete.")
             
             # Ensure the recordings directory exists
-            recordings_dir = "../recordings"
+            recordings_dir = "recordings"
             if not os.path.exists(recordings_dir):
                 os.makedirs(recordings_dir)
             
@@ -86,7 +83,7 @@ def record_and_transcribe():
 
 # Function to get AI response
 def get_ai_response(transcribed_text, question):
-    response = client.chat.completions.create(
+    response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
                 {"role": "system", "content": "You are an unbiased journalist who verifies politicians' claims/answers. Your aim is to hold them accountable by seeking clarity and truth in their statements. Avoid accepting vague or evasive answers."},
@@ -94,11 +91,11 @@ def get_ai_response(transcribed_text, question):
             ],
         max_tokens=150
     )
-    return response.choices[0].message.content
+    return response.choices[0].message["content"]
 
 # Function to save the transcript
 def save_transcript(subject, question, user_response, ai_response):
-    data_dir = "../data"
+    data_dir = "data"
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
 
@@ -112,8 +109,8 @@ def save_transcript(subject, question, user_response, ai_response):
 # Function to display transcripts
 def display_transcripts():
     try:
-        if os.path.exists("../data/transcripts.csv"):
-            df = pd.read_csv("../data/transcripts.csv", encoding='utf-8')
+        if os.path.exists("data/transcripts.csv"):
+            df = pd.read_csv("data/transcripts.csv", encoding='utf-8')
             st.subheader("Saved Transcripts")
             st.dataframe(df)
         else:
@@ -128,7 +125,7 @@ def main():
     st.title("AI-based Mock Interview Practice")
 
     # Load questions from the master question booklet
-    file_path = r"C:\Users\vikas\Downloads\mock_interview\data\questions.xlsx"
+    file_path = "data/questions.xlsx"
     df = load_questions(file_path)
     if df is None:
         return
@@ -174,3 +171,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

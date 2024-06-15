@@ -1,0 +1,7 @@
+# .gitignore
+.env
+__pycache__/
+recordings/
+*.pyc
+*.pyo
+.DS_Store

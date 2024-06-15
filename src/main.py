@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import speech_recognition as sr
 import openai
+import os
 
 from dotenv import load_dotenv
 

@@ -4,4 +4,4 @@ openai
 SpeechRecognition
 pydub
 pandas
-
+dotenv
